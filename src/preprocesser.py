@@ -53,7 +53,7 @@ class ReviewPreprocessor:
         # Load pipeline (requires download)
         #   $ python -m spacy download en_core_web_sm
         self.nlp = spacy.load(
-            "en_core_web_sm", disable=["tok2vec", "parser", "attribute_ruler", "ner"]
+            "en_core_web_sm", disable=["parser", "ner"]
         )
 
     # Full Pipeline Functions ----------------------------------
