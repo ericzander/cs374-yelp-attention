@@ -7,12 +7,10 @@ from sklearn.model_selection import train_test_split
 
 
 def main(args):
-    stratify = not args.no_stratify
     path = "data/yelp/"
 
     # Load
     print("loading...")
-    # df = pd.read_pickle("data/yelp/samples/stratified_reviews.xz")
     df = pd.read_json(path + "yelp_academic_dataset_review.json", lines=True)
 
     # Get only relevant features
@@ -38,8 +36,6 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--nostratify", dest="no_stratify", action="store_true",
-                        help="don't stratify split datasets")
 
     args = parser.parse_args()
 
