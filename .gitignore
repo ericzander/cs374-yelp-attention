@@ -133,8 +133,14 @@ dmypy.json
 
 #########################
 
-# Data
+# Yelp
 data/yelp/*.tar
 data/yelp/*.json
 data/yelp/*.pdf
 data/yelp/reviews/
+
+# Steam
+data/steam/*.csv
+
+# IMDb
+data/imdb/*csv

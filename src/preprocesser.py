@@ -33,7 +33,7 @@ class ReviewPreprocessor:
     """
     def __init__(self, vocab_size, max_seq_length, remove_stop=True,
                  remove_punc=False, pad_punc=True, lemmatize=True,
-                 alpha_only=False, split_digits=True):
+                 alpha_only=False, split_digits=True, ner=True):
 
         # Set parameters
         self.vocab_size = vocab_size
@@ -46,14 +46,19 @@ class ReviewPreprocessor:
         self.alpha_only = alpha_only
         self.split_digits = split_digits
         self.pad_punc = pad_punc
+        self.ner = ner
 
         # Tokenizer to be fit
         self.tokenizer = None
 
+        disable = ["parser"]
+        if not ner:
+            disable.append("ner")
+
         # Load pipeline (requires download)
         #   $ python -m spacy download en_core_web_sm
         self.nlp = spacy.load(
-            "en_core_web_sm", disable=["parser", "ner"]
+            "en_core_web_sm", disable=disable
         )
 
     # Full Pipeline Functions ----------------------------------
@@ -88,9 +93,6 @@ class ReviewPreprocessor:
             text = text.str.replace(r"[^\w\s]+", "", regex=True)
         elif self.pad_punc:
             text = text.str.replace(r"([^\w\s])", r" \1 ", regex=True)
-
-        # Convert to lowercase
-        text = text.str.lower()
 
         # Replace multiple spaces with one space
         text = text.str.replace(" {2,}", " ", regex=True)
@@ -141,10 +143,16 @@ class ReviewPreprocessor:
                 output.extend(self.split_num(token.text))
                 continue
 
+            # Save named entity and move on if relevant
+            if self.ner and token.ent_type_:
+                output.append(token.ent_type_)
+                continue
+
             # Preprocess based on config
             if (not token.is_stop or not self.remove_stop) and \
                (token.is_alpha or not self.alpha_only):
-                output.append(token.lemma_ if self.lemmatize else token.text)
+                tok = token.lemma_ if self.lemmatize else token.text
+                output.append(tok.lower())
 
         return output
 
