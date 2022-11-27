@@ -18,12 +18,12 @@ def main(args):
 
     # Perform 80:10:10 split
     train, other = train_test_split(df, test_size=0.2, stratify=df["stars"])
-    dev, test = train_test_split(other, test_size=0.5, stratify=other["stars"])
+    val, test = train_test_split(other, test_size=0.5, stratify=other["stars"])
 
     # Save results and print to confirm
     print("compressing...")
     pathlib.Path(path + "reviews/").mkdir(exist_ok=True)
-    for name, df in zip(("train", "dev", "test"), (train, dev, test)):
+    for name, df in zip(("train", "val", "test"), (train, val, test)):
         # df.to_json(path + f"reviews/{name}.json")
         df.to_pickle(path + f"reviews/{name}.xz", compression="xz")
 

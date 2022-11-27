@@ -60,6 +60,7 @@ class ReviewPreprocessor:
         self.nlp = spacy.load(
             "en_core_web_sm", disable=disable
         )
+        self.nlp.vocab["not"].is_stop = False
 
     # Full Pipeline Functions ----------------------------------
 
