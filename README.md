@@ -1,4 +1,4 @@
-# CS 374: Yelp-5 Sentiment Classification with Self-Attention
+# CS 374: Yelp-5 Sentiment Classification
 
 An experiment in sentiment classification of the Yelp-5 dataset with
 multi-head self-attention and visualizations for explainability.
@@ -18,6 +18,7 @@ This project uses review text and 5-star ratings exclusively.
 * [Dataset](https://www.yelp.com/dataset)
 * [Documentation](https://www.yelp.com/dataset/documentation/main)
 * See the readme.txt file in *data/yelp* for instructions on data collection.
+* To run the experiment notebooks, apply *scripts/yelp_split.py* to split data first.
 
 #### IMDb
 
