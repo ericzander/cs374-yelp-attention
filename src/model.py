@@ -61,10 +61,10 @@ class ReviewClassifier(tf.keras.Model):
         # Self attention (query = key) -> feed-forward network (w/ add & norm)
         attn_output, attn_scores = self.att(x, x, attention_mask=mask, return_attention_scores=True)
         attn_output = self.dropout1(attn_output, training=training)
-        out1 = self.layernorm1(x + attn_output)
-        ffn_output = self.ffn(out1)
+        x = self.layernorm1(x + attn_output)
+        ffn_output = self.ffn(x)
         ffn_output = self.dropout2(ffn_output, training=training)
-        x = self.layernorm2(out1 + ffn_output)
+        x = self.layernorm2(x + ffn_output)
 
         # Average pooling (along each time step), dropout, one more dense layer
         x = self.pool(x)
